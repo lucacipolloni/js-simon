@@ -4,6 +4,9 @@ const countdownEl = document.getElementById("countdown");
 const instructionsEl = document.getElementById("instructions");
 const numbersList = document.getElementById("numbers-list");
 const answersForm = document.getElementById("answers-form");
+const messageEl = document.getElementById("message");
+
+const inputsList = document.querySelectorAll("#answers-form input");
 
 // # RANDOM NUMBER GENERATION
 
@@ -42,3 +45,27 @@ const handleCountdownTick = () => {
 
 const clock = setInterval(handleCountdownTick, 1000);
 handleCountdownTick();
+
+// # FORM NUMBERS SUBMIT
+
+let guessedNumbers = [];
+
+answersForm.addEventListener("submit", (e) => {
+  guessedNumbers = [];
+
+  e.preventDefault();
+
+  for (let i = 0; i < inputsList.length; i++) {
+    const currentInput = inputsList[i];
+    const currentValue = parseInt(currentInput.value);
+    if (randomNumbers.includes(currentValue)) {
+      guessedNumbers.push(currentValue);
+    }
+  }
+
+  messageEl.classList.remove("text-danger");
+  messageEl.innerText =
+    guessedNumbers.length > 0
+      ? "Hai indovinato i numeri: " + guessedNumbers.join(", ")
+      : "Non hai indovinato nessun numero";
+});
